@@ -4,7 +4,14 @@ import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore, collection, doc, onSnapshot } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  doc,
+  onSnapshot,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
@@ -29,7 +36,25 @@ export const firestoreDb = getFirestore(app);
 export const firestoreCollection = collection;
 export const firestoreDoc = doc;
 export const dbUserSnapshot = (userUid, userDocCallback) => {
-  const usersCollection = collection(firestoreDb, 'users');
-  return onSnapshot(doc(usersCollection, userUid), userDocCallback);
+  return onSnapshot(doc(firestoreDb, 'users', userUid), userDocCallback);
+};
+export const getUsernameDocRef = (username) => {
+  return doc(firestoreDb, `usernames/${username}`);
+  // return getDoc(docRef);
+};
+export const setUsernameDoc = (username: string, userUid: string) => {
+  return setDoc(doc(firestoreDb, `usernames/${username}`), { uid: userUid });
+};
+export const setUserDoc = (userData: {
+  username: string;
+  photoURL: string;
+  displayName: string;
+  uid: string;
+}) => {
+  return setDoc(doc(firestoreDb, `users/${userData.uid}`), {
+    username: userData.username,
+    photoURL: userData.photoURL,
+    displayName: userData.displayName,
+  });
 };
 export const storage = getStorage(app);
