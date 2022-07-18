@@ -95,10 +95,11 @@ function UsernameForm() {
     debounce(async (username) => {
       if (username.length >= 3) {
         const usernameDocResp = await getUsernameDocRef(username);
-        const exists = usernameDocResp.id ? true : false;
-        console.log('checkUsername - username:', username);
-        console.log('checkUsername - usernameDocResp:', usernameDocResp);
-        console.log('checkUsername - exists:', exists);
+        const exists = usernameDocResp.data() ? true : false;
+        console.log(
+          'checkUsername - usernameDocResp.data():',
+          usernameDocResp.data()
+        );
         setIsValid(!exists);
         setLoading(false);
       }

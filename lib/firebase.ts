@@ -39,8 +39,8 @@ export const dbUserSnapshot = (userUid, userDocCallback) => {
   return onSnapshot(doc(firestoreDb, 'users', userUid), userDocCallback);
 };
 export const getUsernameDocRef = (username) => {
-  return doc(firestoreDb, `usernames/${username}`);
-  // return getDoc(docRef);
+  const docRef = doc(firestoreDb, `usernames/${username}`);
+  return getDoc(docRef);
 };
 export const setUsernameDoc = (username: string, userUid: string) => {
   return setDoc(doc(firestoreDb, `usernames/${username}`), { uid: userUid });
